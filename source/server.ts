@@ -1,10 +1,14 @@
 /** source/server.ts */
 import http from 'http';
 import express, { Express } from 'express';
+import * as dotenv from 'dotenv';
 import morgan from 'morgan';
 import routes from './routes/posts';
+import virm_router from './routes/vimana.router';
 
 const router: Express = express();
+
+dotenv.config();
 
 /** Logging */
 router.use(morgan('dev'));
@@ -29,6 +33,7 @@ router.use((req, res, next) => {
 
 /** Routes */
 router.use('/', routes);
+router.use('/vim', virm_router)
 
 /** Error handling */
 router.use((req, res, next) => {
@@ -40,5 +45,5 @@ router.use((req, res, next) => {
 
 /** Server */
 const httpServer = http.createServer(router);
-const PORT: any = process.env.PORT ?? 6060;
+const PORT: any = process.env.SERVER_PORT ?? 6060;
 httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
