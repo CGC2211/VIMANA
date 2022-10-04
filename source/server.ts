@@ -36,7 +36,7 @@ router.use('/', routes);
 router.use('/vim', virm_router)
 
 /** Error handling */
-router.use((req, res, next) => {
+router.use((req, res) => {
     const error = new Error('not found');
     return res.status(404).json({
         message: error.message

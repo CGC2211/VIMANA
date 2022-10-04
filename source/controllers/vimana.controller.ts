@@ -1,18 +1,24 @@
 import {Request, Response} from 'express';
-import { connect } from '../utils/mysql.connector';
+import { getPosts } from '../vimana/vimana.service';
 
 
-async function getPosts(req: Request, res: Response): Promise<Response | void> {
+ const posts = async (req: Request, res: Response): Promise<Response | void>  => {
+    let results  = getPosts()
+    await results.then(resolve => {
+        return res.json(resolve)
+    }).catch(error =>{
+        console.log(error)
+        return res.json(error)
+    })
+}
+
+const createUser = async (req: Request, res: Response): Promise<Response | void>  => {
     try {
-        const conn = await connect();
-        console.log(process.env.MY_SQL_DB_USER)
-        const posts = await conn.query('SELECT * FROM VIMN');
-        return res.json(posts[0]);
-    }
-    catch (e) {
+
+    }catch (e) {
         console.log(e)
         return res.json(e)
     }
 }
 
-export default { getPosts };
+export default { posts };
